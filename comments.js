@@ -1,63 +1,25 @@
-// Create a web server
-// Load the comments.json file
-// Parse the file
-// Render the comments
-// Create a form to add a new comment
-// Add the new comment to the comments.json file
-// Redirect to the homepage
-// Add a delete button to each comment
-// Delete the comment from the comments.json file
-// Redirect to the homepage
+// Create web server
+// 1. Create web server with express
+// 2. Create a route for post comments
+// 3. Add comments to the database
+// 4. Return all comments from database
 
-// Express
+// 1. Create web server with express
 const express = require('express');
 const app = express();
 
-// File System
-const fs = require('fs');
-
-// Body Parser
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// Method Override
-const methodOverride = require('method-override');
-app.use(methodOverride('_method'));
-
-// Load the comments.json file
-let comments = fs.readFileSync('./comments.json');
-comments = JSON.parse(comments);
-
-// Set the view engine to ejs
-app.set('view engine', 'ejs');
-
-// Render the comments
-app.get('/comments', (req, res) => {
-  res.render('comments/index', { comments });
-});
-
-// Create a form to add a new comment
-app.get('/comments/new', (req, res) => {
-  res.render('comments/new');
-});
-
-// Add the new comment to the comments.json file
+// 2. Create a route for post comments
 app.post('/comments', (req, res) => {
-  comments.push(req.body);
-  fs.writeFileSync('./comments.json', JSON.stringify(comments));
-  res.redirect('/comments');
+  // 3. Add comments to the database
+  res.json({message: 'Comment created!'});
 });
 
-// Add a delete button to each comment
-// Delete the comment from the comments.json file
-// Redirect to the homepage
-app.delete('/comments/:idx', (req, res) => {
-  comments.splice(req.params.idx, 1);
-  fs.writeFileSync('./comments.json', JSON.stringify(comments));
-  res.redirect('/comments');
+// 4. Return all comments from database
+app.get('/comments', (req, res) => {
+  res.json({message: 'Comments returned!'});
 });
 
-// Listen on port 3000
+// Start web server
 app.listen(3000, () => {
-  console.log('Server is listening on port 3000');
+  console.log('Web server started on port 3000');
 });
